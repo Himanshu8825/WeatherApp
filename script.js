@@ -20,7 +20,7 @@ function switchTab(clickedTab) {
 
         if (!searchForm.classList.contains("active")) {
             userInfoContainer.classList.remove("active");
-            grantAccessContainer.classList.remove("remove");
+            grantAccessContainer.classList.remove("active");
             searchForm.classList.add("active");
         }
 
@@ -48,21 +48,23 @@ function getfromSessionStorage() {
     if (!localCoordinates) {
         grantAccessContainer.classList.add("active");
     } else {
-        const coOrdinates = JSON.parse(localCoordinates);
-        fetchUserWeatherInfo(coOrdinates);
+        const coordinates = JSON.parse(localCoordinates);
+        fetchUserWeatherInfo(coordinates);
     }
 }
 
 
-async function fetchUserWeatherInfo(coOrdinates) {
-    const { lat, lon } = coOrdinates;
+async function fetchUserWeatherInfo(coordinates) {
+    const { lati, long } = coordinates;
     grantAccessContainer.classList.remove("active");
     loadingScreen.classList.add("active");
 
     //API CALL
 
     try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lati}&lon=${long}&appid=${API_KEY}&units=metric`
+        );
         const data = await response.json();
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
@@ -89,7 +91,7 @@ function renderWeatherInfo(weatherInfo) {
     cityName.innerText = weatherInfo?.name;
     countryIcon.src = `https://flagcdn.com/144x108/${weatherInfo?.sys.country.toLowerCase()}.png`;
     desc.innerText = weatherInfo?.weather?.[0]?.description;
-    weatherIcon.src = `https://flagcdn.com/144x108/${weatherInfo?.weather?.[0]?.icon}.png`;
+    weatherIcon.src = `https://api.openweathermap.org/img/w/${weatherInfo?.weather?.[0]?.icon}.png`;
     temp.innerText = weatherInfo?.main?.temp;
     windSpeed.innerText = weatherInfo?.wind?.speed;
     humidity.innerText = weatherInfo?.main?.humidity;
@@ -110,8 +112,8 @@ function getLoaction() {
 
 function showPosition(position) {
     const userCoordinates = {
-        lat: position.coords.latitude,
-        lon: position.coords.longitude,
+        lati: position.coords.latitude,
+        long: position.coords.longitude,
     }
     sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
     fetchUserWeatherInfo(userCoordinates);
@@ -128,7 +130,7 @@ searchForm.addEventListener("submit", (e) => {
     if (cityName === "") {
         return;
     } else {
-        fetchUserWeatherInfo(cityName);
+        fetchSearchWeatherInfo(cityName);
     }
 })
 
@@ -140,12 +142,12 @@ async function fetchSearchWeatherInfo(city) {
 
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`);
-        const data = response.json();
+        const data = await response.json();
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
         renderWeatherInfo(data);
     } catch (error) {
-        console.error(error);
+        // console.error(error);
     }
 }
 
@@ -161,28 +163,3 @@ async function fetchSearchWeatherInfo(city) {
 
 
 
-
-
-// const API_KEY = 'd399dc2127297039e1c2f393d6ee9f5f';
-
-
-// console.log('hello')
-
-
-// async function showWeather() {
-//     let city = "patna";
-
-//     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`)
-
-
-//     const data = await response.json();
-//     console.log("Weather App Data:", data);
-
-//     let newPara = document.createElement('p');
-//     newPara.textContent = `${(data?.main?.temp - 273.15).toFixed(2)}°C`;
-
-//     document.body.appendChild(newPara);
-
-
-// };
-// showWeather();

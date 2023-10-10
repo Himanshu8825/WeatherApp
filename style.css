@@ -3,6 +3,12 @@
     border-radius: 4px;
 }
 
-.tab{
+.tab {
     cursor: pointer;
+}
+
+.form-container.active {
+    scale: 1;
+    opacity: 1;
+    display: flex;
 }
