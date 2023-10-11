@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&family=Great+Vibes&family=Poppins:ital,wght@0,300;0,400;1,400&family=Roboto&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -22,9 +27,9 @@
         <div class="weather-container">
 
             <!--! Grant Location Container -->
-            <div class="grant-location-container">
+            <div class="sub-container grant-location-container">
                 <img src="./assets/location.png" width="80" height="80" loading="lazy">
-                <p>Grant location access</p>
+                <p>Grant Location Access</p>
                 <p>Allow access to get weather information</p>
                 <button class="btn" data-grantAccess>Grant Access</button>
             </div>
@@ -41,13 +46,13 @@
 
 
             <!-- !Loading Screen Container -->
-            <div class="loading-container">
+            <div class=" sub-container loading-container">
                 <img src="assets/loading.gif" alt="" width="150" height="150">
-                <p>Loading....</p>
+                <p>Loading</p>
             </div>
 
             <!-- ! Show Weather Info -->
-            <div class="user-info-container">
+            <div class=" sub-container user-info-container">
 
                 <!-- !City name and Flag -->
                 <div class="name">
